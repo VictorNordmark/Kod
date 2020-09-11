@@ -138,3 +138,108 @@ c3=c(3)
 p= @(x) c1 + c2.*(x-x1) + c3.*(x-x1).*(x-x2)
 plot(x,p(x))
 
+%% 4 e
+clc
+clear all
+format short
+
+xstart = [1; 32; 60; 91; 121; 152; 182; 213; 243; 273; 304; 334; 365]; 
+ystart = [373; 484; 635; 798; 956; 1085; 1104; 996; 841; 682; 523; 394; 373]; %alla värden för hela året
+
+x=[91; 121; 152; 182; 213; 243];
+y=[798; 956; 1085; 1104; 996; 841];%värden från april till september
+
+a=[1 x(1) x(1)^2
+    1 x(2) x(2)^2
+    1 x(3) x(3)^2
+    1 x(4) x(4)^2
+    1 x(5) x(5)^2
+    1 x(6) x(6)^2];
+
+at=transpose(a);
+mkm=(at*a)\(at*y);
+c1=mkm(1);
+c2=mkm(2);
+c3=mkm(3);
+
+%hitta maxvärde
+syms b
+p= c1 + c2.*b + c3.*b.^2;
+dpdx=diff(p,b)==0;
+xmax=solve(dpdx,b);
+r=xmax;
+ymax= c1 + c2.*r + c3.*r.^2 %ungefär 1095
+plot(xmax,ymax,"xb")
+hold on
+
+
+
+%skriver ut hela mkm-grafen och alla startvärden
+p= @(b) c1 + c2.*b + c3.*b.^2;
+b=(0:365);
+plot(b,p(b))
+hold on
+plot(xstart,ystart,"or")
+hold on
+
+syms b
+julafton=358;
+b=julafton;
+p_jul= c1 + c2.*b + c3.*b.^2
+plot(julafton,p_jul,"xb")
+
+%% 4 f
+clc
+clear all
+format short
+
+x = [1; 32; 60; 91; 121; 152; 182; 213; 243; 273; 304; 334; 365]; 
+y = [373; 484; 635; 798; 956; 1085; 1104; 996; 841; 682; 523; 394; 373]; %alla värden för hela året
+
+
+a=[1 x(1) x(1)^2
+   1 x(2) x(2)^2
+   1 x(3) x(3)^2
+   1 x(4) x(4)^2
+   1 x(5) x(5)^2
+   1 x(6) x(6)^2
+   1 x(7) x(7)^2
+   1 x(8) x(8)^2
+   1 x(9) x(9)^2
+   1 x(10) x(10)^2
+   1 x(11) x(11)^2
+   1 x(12) x(12)^2
+   1 x(13) x(13)^2];
+
+at=transpose(a);
+mkm=(at*a)\(at*y);
+c1=mkm(1);
+c2=mkm(2);
+c3=mkm(3);
+
+%hitta maxvärde
+syms b
+p= c1 + c2.*b + c3.*b.^2;
+dpdx=diff(p,b)==0;
+xmax=solve(dpdx,b);
+r=xmax;
+ymax= c1 + c2.*r + c3.*r.^2 
+plot(xmax,ymax,"xb")
+hold on
+
+
+
+%skriver ut hela mkm-grafen och alla startvärden
+
+b=(0:365);
+p= @(b) c1 + c2.*b + c3.*b.^2;
+plot(b,p(b))
+hold on
+plot(x,y,"or")
+hold on
+
+syms b
+julafton=358;
+b=julafton;
+p_jul= c1 + c2.*b + c3.*b.^2
+plot(julafton,p_jul,"xb")
