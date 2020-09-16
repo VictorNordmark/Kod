@@ -335,3 +335,57 @@ plot(error)
 %c
 % Varken eller,enligt teorin är sekantmetoden superlineär,
 %d
+
+%%
+clc 
+clear all
+dag = [1; 32; 60; 91; 121; 152; 182; 213; 243; 273; 304; 334; 365];
+min = [373; 484; 635; 798; 956; 1085; 1104; 996; 841; 682; 523; 394; 373];
+plot(dag,min,"o")
+hold on
+%plot(x,y,"x") %polynomet ser ut att vara av grad 2
+
+
+
+%punkterna x1 x2 och x3 = 152; 182 och 213
+
+x1=152;
+x2=182;
+x3=213;
+
+
+A=[1 0 0; 1 30 0; 1 61 1891];
+b=[956; 1085; 1104];
+c=A\b
+
+c1=c(1)
+c2=c(2)
+c3=c(3)
+
+p= @(x) c1 + c2.*(x-x1) + c3*(x-x1).*(x-x2)
+dp= @(x) c2 +c3.*(2*x-x2-x1)
+maxpunkt= fzero(@(x) dp(x),200)
+maxvarde= p(maxpunkt)
+
+
+ans1=abs(p(358))
+x=(1:365);
+plot(x,p(x))
+
+%%
+clc
+clear all
+syms x
+dag = [1; 32; 60; 91; 121; 152; 182; 213; 243; 273; 304; 334; 365];
+min = [373; 484; 635; 798; 956; 1085; 1104; 996; 841; 682; 523; 394; 373];
+p=polyfit(dag,min,12);
+x=(1:365);
+f=polyval(p,x);
+syms y(x)
+y= @(x) p(13) +p(12)*x +p(11)*x^2 +p( 10)*x^3 +p(9)*x^4 +p(8)*x^5 +p(7)*x^6 +p(6).*x.^7 +p(5).*x.^8 +p(4).*x^9 +p(3)*x^10 +p(2).*x^11+p(1).*x^12
+%y= @(x) p(13) +p(12).*x +p(11).*x.^2 +p( 10).*x.^3 +p(9).*x.^4 +p(8).*x.^5 +p(7).*x.^6 +p(6).*x.^7 +p(5).*x.^8 +p(4).*x.^9 +p(3).*x.^10 +p(2).*x.^11+p(1).*x.^12
+plot(x,y)
+dy=diff(y,x);
+%plot(x,y(x));
+%f=polyval(p1, dag)
+%plot(dag,f)
